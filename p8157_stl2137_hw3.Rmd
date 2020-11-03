@@ -8,6 +8,45 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(geepack)
+library(lme4)
+library(doBy)
 ```
+
+# Question 1
+
+```{r}
+### Import data
+
+toenail_dat <- read.delim("/Users/SabrinaLin/Documents/Fall_2020_Longitudinal/HW2/toenail.txt", header = TRUE, sep = "", col.names = c("ID", "Y", "Treatment", "Month", "Visit")) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    treatment = as.factor(treatment), 
+    visit = as.factor(visit)
+  )
+```
+
+## Part 1
+Consider a random effects model with a random intercept for the log odds of moderate or severe onycholysis. Assuming linear trends and month as the time variable.
+
+```{r}
+mod_toenail <- lmer(y ~ treatment + month + (1 |id), data = toenail_dat)
+
+summary(mod_toenail)
+```
+
+## Part 2
+
+Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
+
+
+## Part 3
+
+From the results of your analysis what conclusions do you draw about the effect of treatment on changes in the severity of onycholysis over time? Provide results that support your conclusions.
+
+## Part 4
+How are the interpretations different from the model in HW2.
+
+* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. 
 
 
