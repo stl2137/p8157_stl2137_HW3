@@ -39,13 +39,13 @@ sum_glme_toenail <- summary(glme_toenail)
 
 Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
 
-* $\beta_0$: The log-odds of moderate or severe onycholysis for an individual in the control group at baseline is `r sum_glme_toenail$coefficients[1,1]`. 
+* $\beta_0$: The log-odds of moderate or severe onycholysis for a typical individual in the control group at baseline is `r sum_glme_toenail$coefficients[1,1]`, holding all other variables constant. 
 
-* $\beta_1$: The log-odds ratio of moderate or severe onycholysis comparing an individual in treatment group 1 to an individual in treatment group 0 at baseline who have an identical propensity for moderate or severe onycholysis is `r sum_glme_toenail$coefficients[2,1]`.
+* $\beta_1$: The log-odds ratio of moderate or severe onycholysis comparing an individual in treatment group 1 to an individual in treatment group 0 at baseline who have an identical propensity for moderate or severe onycholysis is `r sum_glme_toenail$coefficients[2,1]`, holding all other variables constant.
 
-* $\beta_2$: The log-odds ratio of moderate or sever onycholysis for every month increase for a given individual in treatment group 0 is `r sum_glme_toenail$coefficients[3,1]`.
+* $\beta_2$: The log-odds ratio of moderate or sever onycholysis for every month increase for a given individual in treatment group 0 is `r sum_glme_toenail$coefficients[3,1]`, holding all other variables constant.
 
-* $\beta_3$: The difference in the log-odds ratio of moderate or severe onycholysis for every month increase between treatment group 1 and treatment group 0 is `r sum_glme_toenail$coefficients[4,1]`. 
+* $\beta_3$: The difference in the log-odds ratio of moderate or severe onycholysis for every month increase between treatment group 1 and treatment group 0 is `r sum_glme_toenail$coefficients[4,1]`, holding all other variables constant. 
 
 * Random effect parameter: The variance of the random effects $\sigma_b^2$ is 20.76, which is not small, suggesting that there is variation in the random effects in the underlying propensity for response between the individuals. 
 
@@ -86,14 +86,24 @@ summary(glme_skin)
 ```{r}
 glme_skin <- glmer(y ~ treatment + year + (1|id), data = skin_dat, family = poisson(link = "log"))
 
-summary(glme_skin)
+sum_glme_skin <- summary(glme_skin)
 ```
 
 ## Part 2
 Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
 
+* $\beta_0$: The log-rate of skin cancer for a typical individual in the control group at baseline is `r sum_glme_skin$coefficients[1,1]`. 
+
+* $\beta_1$: The log-rate ratio comparing a patient in treatment group 1 to a patient in treatment group 0 at baseline who have an identical underlying propensity for response is `r sum_glme_skin$coefficients[2,1]`, holding all other variables constant. 
+
+* $\beta_2$: The log-rate ratio for every year increase for a typical individual in treatment group 0 is `r sum_glme_skin$coefficients[3,1]`, holding all other variables constant. 
+
+* Random effect parameter: The variance of the random effects $\sigma_b^2$ is 2.189, which is not very large, suggesting that there is not too much variation in the random effects in the underlying propensity for response between the individuals. 
+
 ## Part 3
 From the results of your analysis what conclusions do you draw about the effect of beta carotene on the rate of skin cancers? Provide results that support your conclusions.
+
+* 
 
 ## Part 4
 Repeat the above analysis adjusting for skin type, age, and the count of the number of previous skin cancers. What conclusions do you draw about the effect of beta carotene on the adjusted rate of skin cancers?
@@ -104,7 +114,9 @@ mod_adjust_skin <- glmer(y ~ treatment + year + skin + age + exposure + (1 |id),
 summary(mod_adjust_skin)
 ```
 
+* 
+
 ## Part 5
 How are the interpretations different from the model in HW2.
 
-* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. We are also able to look at the between individual variability in the random intercept model, which we were unable to distinguish in the GEE model. 
+* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. We are also able to look at the between individual variability in the random intercept model, which we were unable to distinguish in the GEE model.
