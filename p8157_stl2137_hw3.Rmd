@@ -40,6 +40,8 @@ summary(mod_toenail)
 Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
 
 
+
+
 ## Part 3
 
 From the results of your analysis what conclusions do you draw about the effect of treatment on changes in the severity of onycholysis over time? Provide results that support your conclusions.
@@ -49,4 +51,43 @@ How are the interpretations different from the model in HW2.
 
 * The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. 
 
+# Question 2
 
+```{r}
+skin_dat <- read.delim("/Users/SabrinaLin/Documents/Fall_2020_Longitudinal/HW2/skin.txt", header = TRUE, sep = "", col.names = c("ID", "Center", "Age", "Skin", "Gender", "Exposure", "Y", "Treatment", "Year")) %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    treatment = as.factor(treatment),
+    gender = as.factor(gender),
+    skin = as.factor(skin)
+  )
+```
+
+## Part 1
+Set up a suitable random effects (random intercept) model for rate of skin cancers with Treatment and Year as covariates.
+
+```{r}
+mod_skin <- lmer(y ~ treatment + year + (1 |id), data = skin_dat)
+
+summary(mod_skin)
+```
+
+## Part 2
+Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
+
+## Part 3
+From the results of your analysis what conclusions do you draw about the effect of beta carotene on the rate of skin cancers? Provide results that support your conclusions.
+
+## Part 4
+Repeat the above analysis adjusting for skin type, age, and the count of the number of previous skin cancers. What conclusions do you draw about the effect of beta carotene on the adjusted rate of skin cancers?
+
+```{r}
+mod_adjust_skin <- lmer(y ~ treatment + year + skin + age + exposure + (1 |id), data = skin_dat)
+
+summary(mod_adjust_skin)
+```
+
+## Part 5
+How are the interpretations different from the model in HW2.
+
+* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. 
