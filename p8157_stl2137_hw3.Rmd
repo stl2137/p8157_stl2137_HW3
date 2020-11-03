@@ -30,16 +30,22 @@ toenail_dat <- read.delim("/Users/SabrinaLin/Documents/Fall_2020_Longitudinal/HW
 Consider a random effects model with a random intercept for the log odds of moderate or severe onycholysis. Assuming linear trends and month as the time variable.
 
 ```{r}
-mod_toenail <- lmer(y ~ treatment + month + (1 |id), data = toenail_dat)
+glme_toenail <- glmer(y ~ treatment + month + treatment*month + (1|id), data = toenail_dat, family = binomial(link = "logit"))
 
-summary(mod_toenail)
+sum_glme_toenail <- summary(glme_toenail)
 ```
 
 ## Part 2
 
 Provide Interpretations for the fixed effects coefficients in your model. Interpret the random effect parameter.
 
+* $\beta_0$: The log-odds of moderate or severe onycholysis for an individual in the control group at baseline is `r sum_glme_toenail$coefficients[1,1]`. 
 
+* $\beta_1$: The log-odds ratio of moderate or severe onycholysis comparing an individual in treatment group 1 to an individual in treatment group 0 at baseline who have an identical propensity for moderate or severe onycholysis is `r sum_glme_toenail$coefficients[2,1]`.
+
+* $\beta_2$: The log-odds ratio of moderate or sever onycholysis for every month increase for a given individual in treatment group 0 is `r sum_glme_toenail$coefficients[3,1]`.
+
+* $\beta_3$: The difference in the log-odds ratio of moderate or severe onycholysis for every month increase between treatment group 1 and treatment group 0 is `r sum_glme_toenail$coefficients[4,1]`. 
 
 
 ## Part 3
@@ -67,9 +73,17 @@ skin_dat <- read.delim("/Users/SabrinaLin/Documents/Fall_2020_Longitudinal/HW2/s
 Set up a suitable random effects (random intercept) model for rate of skin cancers with Treatment and Year as covariates.
 
 ```{r}
-mod_skin <- lmer(y ~ treatment + year + (1 |id), data = skin_dat)
+glme_skin <- glmer(y ~ treatment + year + treatment*year + (1|id), data = skin_dat, family = poisson)
 
-summary(mod_skin)
+summary(glme_skin)
+```
+
+* the interaction term in the above model is not significant, thus for the following models, the interaction term will be taken out. 
+
+```{r}
+glme_skin <- glmer(y ~ treatment + year + (1|id), data = skin_dat, family = poisson(link = "log"))
+
+summary(glme_skin)
 ```
 
 ## Part 2
@@ -82,7 +96,7 @@ From the results of your analysis what conclusions do you draw about the effect 
 Repeat the above analysis adjusting for skin type, age, and the count of the number of previous skin cancers. What conclusions do you draw about the effect of beta carotene on the adjusted rate of skin cancers?
 
 ```{r}
-mod_adjust_skin <- lmer(y ~ treatment + year + skin + age + exposure + (1 |id), data = skin_dat)
+mod_adjust_skin <- glmer(y ~ treatment + year + skin + age + exposure + (1 |id), data = skin_dat, family = poisson(link = "log"))
 
 summary(mod_adjust_skin)
 ```
