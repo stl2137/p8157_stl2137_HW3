@@ -47,15 +47,18 @@ Provide Interpretations for the fixed effects coefficients in your model. Interp
 
 * $\beta_3$: The difference in the log-odds ratio of moderate or severe onycholysis for every month increase between treatment group 1 and treatment group 0 is `r sum_glme_toenail$coefficients[4,1]`. 
 
+* Random effect parameter: The variance of the random effects $\sigma_b^2$ is 20.76, which is not small, suggesting that there is variation in the random effects in the underlying propensity for response between the individuals. 
 
 ## Part 3
 
 From the results of your analysis what conclusions do you draw about the effect of treatment on changes in the severity of onycholysis over time? Provide results that support your conclusions.
 
+* From the model constructed, we see that with a p-value of 0.65728, the treatment beta value is not significant. Although the interaction term between treatment and months is significant with a p-value of 0.04846, this significance should be noted as borderline. The interaction significance may be driven by the significance of the beta value of month, where the p-value < 2e-16. This then implies that from our model, time is the covariate that has a significant change in the severity of onycholysis and not necessarily the treatment. 
+
 ## Part 4
 How are the interpretations different from the model in HW2.
 
-* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. 
+* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. We are also able to look at the between individual variability in the random intercept model, which we were unable to distinguish in the GEE model. 
 
 # Question 2
 
@@ -104,4 +107,4 @@ summary(mod_adjust_skin)
 ## Part 5
 How are the interpretations different from the model in HW2.
 
-* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. 
+* The interpretations for the random intercept model differ from the interpretations for the GEE models by stating that the beta coefficient is for a given individual rather than for the general population. We are also able to look at the between individual variability in the random intercept model, which we were unable to distinguish in the GEE model. 
